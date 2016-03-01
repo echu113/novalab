@@ -1,0 +1,74 @@
+<experiment id="eyeSoccerTest"
+            dummyMode="1"
+            fullScreen="1"
+            screenCoord="[20, 20, 850, 480]">
+    
+    <target id="soccerBall"
+            type="dot"
+            radius="25"
+            color="[255 255 255]"/>
+            
+    <movement id="ballMovement"
+              type="linear"
+              direction="25"
+              speed="300"/>
+            
+    <target id="goal"
+            type="rect"
+            height="200"
+            width="35"
+            color="[255 255 255]"/>
+            
+    <movement id="goalMovement"
+              type="linear"
+              direction="205"
+              speed="300"/>
+          
+    <background id="context"
+                type="noiseTexture"
+                noiseColor="[0.5 0.5 0.5]"
+                density="400"
+                noiseRate="0.1"/>
+
+    <propertyChange id="invisible"
+                    propertyName="visibility"
+                    newValue="0"
+                    time="2"/>
+                    
+<!--     <propertyChange id="visible"
+                    propertyName="visibility"
+                    newValue="1"
+                    time="1.3"/> -->
+    
+    <trial id="eyeSoccer_1"
+           trialTargets="[soccerBall goal]"
+           soccerBall.x="100"
+           soccerBall.y="800"
+           soccerBall.movement="ballMovement"
+           soccerBall.propertyChanges="[invisible]"
+           goal.x="1000"
+           goal.y="200"
+           goal.propertyChanges="[invisible]"
+           background="context"
+           context.propertyChanges="[invisible]"
+           duration="2.1"/>
+
+
+    <trial id="eyeSoccer_2"
+           trialTargets="[soccerBall goal]"
+           soccerBall.x="200"
+           soccerBall.y="800"
+           soccerBall.propertyChanges="[invisible]"
+           goal.x="1000"
+           goal.y="200"
+           goal.movement="goalMovement"
+           goal.propertyChanges="[invisible]"
+           background="context"
+           context.movement="goalMovement"
+           context.propertyChanges="[invisible]"
+           duration="2.1"/>
+           
+   <trialOrder order = "[eyeSoccer_1 eyeSoccer_2]"
+               shuffle = "0"/>
+    
+</experiment>
