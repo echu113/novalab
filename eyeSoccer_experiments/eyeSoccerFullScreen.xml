@@ -11,7 +11,7 @@
     <movement id="ballMovement"
               type="linear"
               direction="25"
-              speed="300"/>
+              speed="600"/>
             
     <target id="goal"
             type="rect"
@@ -22,13 +22,13 @@
     <movement id="goalMovement"
               type="linear"
               direction="205"
-              speed="300"/>
+              speed="600"/>
           
     <background id="context"
                 type="noiseTexture"
-                noiseColor="[0.5 0.5 0.5]"
+                noiseColor="[0.7 0.7 0.7]"
                 density="400"
-                noiseRate="0.1"/>
+                noiseRate="0.2"/>
 
     <propertyChange id="invisible"
                     propertyName="visibility"

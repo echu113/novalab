@@ -81,7 +81,7 @@ classdef ExperimentTrial
             end
             
             
-            obj.Duration = Utils.strToInt(xmlNode.getAttribute('duration')); 
+            obj.Duration = Utils.strToDouble(xmlNode.getAttribute('duration')); 
         end
         
         function obj = runTrial(obj, window)
@@ -103,8 +103,8 @@ classdef ExperimentTrial
             
             ListenChar(2); 
 
-            while (time < obj.Duration)
-            
+            while (time <= obj.Duration)
+                
                 obj.Background = obj.Background.drawOnScreen(window); % hack to init proper parameters, should move to "initialization"
                 obj.Background = obj.Background.updateState(time); 
                 obj.Background = obj.Background.move(time); 
@@ -127,6 +127,7 @@ classdef ExperimentTrial
             end
 
             
+            % todo write to data file properly
             [ch, ~] = GetChar();            
             if (~isempty(ch))
                 disp('key pressed!');

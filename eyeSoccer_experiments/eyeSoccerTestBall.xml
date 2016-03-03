@@ -33,7 +33,7 @@
     <propertyChange id="invisible"
                     propertyName="visibility"
                     newValue="0"
-                    time="1.5"/>
+                    time="2"/>
                     
 <!--     <propertyChange id="visible"
                     propertyName="visibility"
@@ -51,7 +51,7 @@
            goal.propertyChanges="[invisible]"
            background="context"
            context.propertyChanges="[invisible]"
-           duration="2.5"/>
+           duration="2.1"/>
 
 
     <trial id="eyeSoccer_2"
@@ -66,7 +66,7 @@
            background="context"
            context.movement="goalMovement"
            context.propertyChanges="[invisible]"
-           duration="2.5"/>
+           duration="2.1"/>
            
    <trialOrder order = "[eyeSoccer_1 eyeSoccer_2]"
                shuffle = "0"/>

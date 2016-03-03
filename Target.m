@@ -24,7 +24,7 @@ classdef Target < CanClone
         end
 
         function this = updateState(this, time)
-            this = PropertyChanger.updateProperties(this, this.PropertyChanger.propertyChanges, time); 
+            this = this.PropertyChanger.updateProperties(this, this.PropertyChanger.propertyChanges, time); 
         end
 
         function this = addPropertyChange(this, propertyChange)
