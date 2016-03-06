@@ -33,10 +33,10 @@ function runExperiment(experimentXML)
                 currTrial = trials(currTrialId);
                 currTrial.runTrial(window); 
             end
-            sca;
         else
             error('please specify trials to run'); 
         end
+        sca; 
     end
 
 

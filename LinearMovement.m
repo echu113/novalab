@@ -36,8 +36,12 @@ classdef LinearMovement < CanClone
         
     end
     
-    methods (Static, Access = private)
+    methods (Static, Access = public)
         
+        function normalizedDeg = normalizeAngleDeg(deg)
+            normalizedDeg = rem(deg, 360); 
+        end
+
         function rad = degtorad(deg)
             rad = deg * pi/180;
         end

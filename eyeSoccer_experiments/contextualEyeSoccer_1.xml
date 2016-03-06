@@ -1,0 +1,151 @@
+<experiment id="eyeSoccerTest"
+            dummyMode="1"
+            fullScreen="1"
+            screenCoord="[20, 20, 850, 480]">
+
+
+	<!-- targets -->
+
+    <target id="soccerBall"
+            type="dot"
+            radius="20"
+            color="[1 1 1]"/>
+
+    <target id="goal"
+            type="rect"
+            height="150"
+            width="25"
+            color="[255 255 255]"/>
+            
+    <movement id="goalMovement"
+              type="linear"
+              direction="205"
+              speed="300"/>
+
+
+	<!-- backgrounds -->
+
+    <background id="context"
+                type="noiseTexture"
+                noiseColor="[0.5 0.5 0.5]"
+                density="300"
+                noiseRate="0.1"/>
+
+    <background id="neutral"
+                type="noiseTexture"
+                noiseColor="[0 0 0]"
+                density="1"
+                noiseRate="1"/>
+
+	<!-- movements -->
+
+    <movement id="right_up"
+              type="linear"
+              direction="15"
+              speed="600"/>
+
+    <movement id="right_horizontal"
+              type="linear"
+              direction="0"
+              speed="600"/> 
+
+    <movement id="right_down"
+              type="linear"
+              direction="345"
+              speed="600"/>      
+
+    <movement id="left_up"
+              type="linear"
+              direction="165"
+              speed="600"/>
+
+    <movement id="left_horizontal"
+              type="linear"
+              direction="180"
+              speed="600"/> 
+
+    <movement id="left_down"
+              type="linear"
+              direction="195"
+              speed="600"/>    
+
+	<!-- trials -->
+
+    <defaultConfig id="eyeSoccerDefault"
+      		    	   type="eyeSoccer"
+      		    	   numberOfTrials="1"
+      		    	   fixPosition="[500 450]"
+      		    	   fixPositionVariance="40"
+      		    	   ball="soccerBall"
+      			   	   goal="goal"
+      			   	   fixationTarget="soccerBall"
+      			   	   endingDistance="-100"
+    		           fixationDuration="0.5"
+    		           trialDuration="0.5"/>
+
+    <trial id="pc_hit_300ms"
+      	   defaultConfig="eyeSoccerDefault"
+      	   isPursuit="1"
+  	   	   possibleMovements="[right_up right_horizontal right_down]"
+  	   	   possibleHitPositions="[25 125]"
+           background="context"/>
+
+    <trial id="pc_miss_300ms"
+      	   defaultConfig="eyeSoccerDefault"
+      	   isPursuit="1"
+  	   	   possibleMovements="[right_up right_horizontal right_down]"
+  	   	   possibleHitPositions="[-25 175]"
+           background="context"/>
+
+   	<trial id="pnc_hit_300ms"
+		       defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="1"
+  	   	   possibleMovements="[right_up right_horizontal right_down]"
+  	   	   possibleHitPositions="[25 125]"
+           background="neutral"/>
+
+   	<trial id="pnc_miss_300ms"
+		       defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="1"
+  	   	   possibleMovements="[right_up right_horizontal right_down]"
+  	   	   possibleHitPositions="[-25 175]"
+           background="neutral"/>
+
+   	<trial id="fc_miss_300ms"
+  		     defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="0"
+  	   	   possibleMovements="[left_up left_horizontal left_down]"
+  	   	   possibleHitPositions="[-25 175]"
+           background="context"/>
+
+   	<trial id="fc_hit_300ms"
+		       defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="0"
+  	   	   possibleMovements="[left_up left_horizontal left_down]"
+  	   	   possibleHitPositions="[25 120]"
+           background="context"/>
+
+   	<trial id="fnc_miss_300ms"
+  		     defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="0"
+  	   	   possibleMovements="[left_up left_horizontal left_down]"
+  	   	   possibleHitPositions="[-25 175]"
+           background="neutral"/>
+
+   	<trial id="fnc_hit_300ms"
+		       defaultConfig="eyeSoccerDefault"
+      	   type="eyeSoccer"
+      	   isPursuit="0"
+  	   	   possibleMovements="[left_up left_horizontal left_down]"
+  	   	   possibleHitPositions="[25 120]"
+           background="neutral"/>
+           
+   <trialOrder order = "[]"
+               shuffle = "1"/>
+    
+</experiment>
