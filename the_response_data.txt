@@ -1,0 +1,17 @@
+             trialId             response
+     fc_miss_500ms#1                    k
+    fnc_miss_500ms#1                    k
+     pnc_hit_500ms#1                    j
+     fnc_hit_500ms#1                    j
+     fnc_hit_200ms#1                    j
+     pnc_hit_200ms#1                    j
+     pc_miss_200ms#1                    k
+      pc_hit_500ms#1                    k
+      fc_hit_200ms#1                    k
+    pnc_miss_200ms#1                    k
+     pc_miss_500ms#1                    k
+      fc_hit_500ms#1                    j
+    pnc_miss_500ms#1                    k
+    fnc_miss_200ms#1                    k
+     fc_miss_200ms#1                    k
+      pc_hit_200ms#1                    j

@@ -67,6 +67,30 @@ classdef Utils
             end
         end
 
+        function pixels = degrees2Pixels(degs)
+            % screenRes - the resolution of the monitor
+            % screenSize - the size of the monitor in cm
+            % (these values can either be along a single dimension or for both the width and height)
+            % distance - the viewing distance in cm.
+            % degs - the amount of degress that should be transformed to a number of pixels
+
+            screenSizeX = 30; %64; %evalin('base', 'screenSizeX');
+            screenSizeY = 36; %evalin('base', 'screenSizeY');
+
+            screenResX = 1440; %1920; %evalin('base', 'screenResX');
+            screenResY = 1080; %evalin('base', 'screenResY');
+            distance = 40; %evalin('base', 'distance');
+
+            pixSizeCmX = screenSizeX./screenResX; %calculates the size of a pixel in cm
+            % pixSizeCmY = screenSizeY./screenResY;
+
+            degperpixX=(2*atan(pixSizeCmX./(2*distance))).*(180/pi);
+            % degperpixY=(2*atan(pixSizeCmY./(2*distance))).*(180/pi);
+
+            pixels = floor(degs / degperpixX); 
+            % height = floor(degY / degperpixY);
+        end
+
     end
     
     methods (Static, Access = private)

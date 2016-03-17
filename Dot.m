@@ -19,7 +19,7 @@ classdef Dot < CanClone & Target
         function obj = Dot(xmlNode)
             if (nargin == 1)
                 obj.Id = Utils.strToChar(xmlNode.getAttribute('id')); 
-                obj.Radius = Utils.strToInt(xmlNode.getAttribute('radius')); 
+                obj.Radius = Utils.strToDouble(xmlNode.getAttribute('radius')); 
                 obj.Color = Utils.strToArray(xmlNode.getAttribute('color')); 
             end
         end

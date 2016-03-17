@@ -1,0 +1,71 @@
+<experiment id="eyeSoccerTest"
+            dummyMode="1"
+            fullScreen="1"
+            screenCoord="[20, 20, 850, 480]">
+
+
+	<!-- targets -->
+
+    <target id="soccerBall"
+            type="dot"
+            radius="30"
+            color="[1 1 1]"/>
+
+    <target id="goal"
+            type="rect"
+            height="30"
+            width="30"
+            color="[1 1 1]"/>
+            
+    <movement id="goalMovement"
+              type="linear"
+              direction="205"
+              speed="300"/>
+
+
+	<!-- backgrounds -->
+
+
+    <background id="neutral"
+                type="noiseTexture"
+                noiseColor="[0 0 0]"
+                density="1"
+                noiseRate="1"/>
+
+	<!-- movements -->
+
+    <movement id="right_up"
+              type="linear"
+              direction="0"
+              speed="600"/>
+             
+    
+    <propertyChange id="occlude"
+                    propertyName="visibility"
+                    duringFixation="0"
+                    newValue="0"
+                    time="1"/>
+                    
+    <propertyChange id="unocclude"
+                    propertyName="visibility"
+                    duringFixation="0"
+                    newValue="1"
+                    time="1.5"/>
+                    
+	<!-- trials -->
+
+    <trial id="eyeSoccer_1"
+           type="generic"
+           fixationDuration="0"
+           trialTargets="[soccerBall]"
+           soccerBall.x="100"
+           soccerBall.y="500"
+           soccerBall.movement="right_up"
+           background="neutral"
+           soccerBall.propertyChanges="[occlude unocclude]"
+           trialDuration="3"/>
+           
+   <trialOrder order = "[]"
+               shuffle = "1"/>
+    
+</experiment>

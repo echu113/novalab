@@ -23,8 +23,8 @@ classdef Target < CanClone
             this.Y = newY; 
         end
 
-        function this = updateState(this, time)
-            this = this.PropertyChanger.updateProperties(this, this.PropertyChanger.propertyChanges, time); 
+        function this = updateState(this, time, fixating)
+            this = this.PropertyChanger.updateProperties(this, this.PropertyChanger.propertyChanges, time, fixating); 
         end
 
         function this = addPropertyChange(this, propertyChange)

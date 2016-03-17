@@ -28,7 +28,7 @@ classdef LinearMovement < CanClone
         
         function [x, y] = move(this, time)
             angle = LinearMovement.degtorad(this.Direction); 
-            distance = this.Speed * time; 
+            distance = floor(this.Speed * time); 
             [displacementX, displacementY] = LinearMovement.pointOnCircle(distance, angle);
             x = this.OriginalX + displacementX; 
             y = this.OriginalY - displacementY; 

@@ -28,11 +28,34 @@ function runExperiment(experimentXML)
     
     function runTrials(trials, trialOrder, window)
         if (~isempty(trialOrder))
+           
+            fileId = fopen('the_response_data.txt', 'w'); 
+            fprintf(fileId,'%20s %20s\r\n','trialId','response');
+
+            % ids = cell(length(trialOrder)); 
+            % responses = cell(length(trialOrder)); 
+
             for i = 1:length(trialOrder)
+                
                 currTrialId = trialOrder{i}; 
                 currTrial = trials(currTrialId);
+
+                ListenChar(2); 
+
                 currTrial.runTrial(window); 
+            
+                % todo write to data file properly
+                [ch, ~] = GetChar();            
+                if (~isempty(ch))
+                    % ids{i} = currTrialId;
+                    % responses{i} = ch; 
+                    fprintf(fileId, '%20s %20s\r\n', currTrialId, ch);
+                end
+                ListenChar(0);   
             end
+
+            fclose(fileId); 
+            
         else
             error('please specify trials to run'); 
         end

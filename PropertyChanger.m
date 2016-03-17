@@ -14,14 +14,23 @@ classdef PropertyChanger
 
     methods (Static, Access = public)
         
-        function target = updateProperties(target, changes, time)
+        function target = updateProperties(target, changes, time, fixating)
             if (~isempty(changes))
                 for i = 1:length(changes)
                     currPropertyChange = changes{i}; 
                     changeTime = currPropertyChange.eventTime; 
-                    currPropertyName = currPropertyChange.propertyName; 
+                    currPropertyName = currPropertyChange.propertyName;
+                    duringFixation = currPropertyChange.duringFixation;
+                    if (isempty(duringFixation))
+                        duringFixation = 0; 
+                    end
                     if ((time >= changeTime) && isprop(target, currPropertyName))
-                        target.(currPropertyName) = currPropertyChange.newValue; 
+                        if ((logical(duringFixation) && logical(fixating)) || (~logical(duringFixation) && ~logical(fixating)))
+                            if (~currPropertyChange.used)
+                                target.(currPropertyName) = currPropertyChange.newValue;
+                                currPropertyChange.used = true; 
+                            end
+                        end
                     end
                 end
             end

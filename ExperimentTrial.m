@@ -90,15 +90,31 @@ classdef ExperimentTrial
                     end
                 end
                 
+
+                % FIX THE DUPLICATE CODE
+
                 fixationTargetId = Utils.strToChar(Utils.getValueFromMap(nodeMap, 'fixationTarget')); 
                 if (~isempty(fixationTargetId))
                     fixationTarget = Utils.getValueFromMap(targets, fixationTargetId); 
                     if (~isempty(fixationTarget))
                         fixationTarget.X = Utils.strToInt(Utils.getValueFromMap(nodeMap, strcat(fixationTargetId, '.x')));
                         fixationTarget.Y = Utils.strToInt(Utils.getValueFromMap(nodeMap, strcat(fixationTargetId, '.y')));
+
+                        fixationTargetPropertyChangeIds = Utils.strToArrayPreserveElemStrings(Utils.getValueFromMap(nodeMap, strcat(fixationTargetId, '.propertyChanges'))); 
+                        if (~isempty(fixationTargetPropertyChangeIds))
+                            for j = 1:length(fixationTargetPropertyChangeIds)
+                                currFixTargetChangeId = fixationTargetPropertyChangeIds{j};
+                                if (propertyChanges.isKey(currFixTargetChangeId) && ~isempty(propertyChanges(currFixTargetChangeId)))
+                                    currFixTargetChange = propertyChanges(currFixTargetChangeId).clone(); 
+                                    fixationTarget = fixationTarget.addPropertyChange(currFixTargetChange); 
+                                end
+                            end
+                        end
+
                         obj.fixationTarget = fixationTarget;
                     end
                 end
+
 
                 obj.fixationDuration = Utils.strToDouble(Utils.getValueFromMap(nodeMap, 'fixationDuration')); 
                 if (isnan(obj.fixationDuration))
@@ -131,39 +147,41 @@ classdef ExperimentTrial
 
             time = 0;
             
-            % ListenChar(2); 
+            while (true)
 
-            while (time <= this.trialDuration)
-                
                 this.Background = this.Background.drawOnScreen(window); % hack to init proper parameters, should move to "initialization"
-                this.Background = this.Background.updateState(time); 
+                this.Background = this.Background.updateState(time, 0); 
                 this.Background = this.Background.move(time); 
 
                 if (length(this.trialTargets) >= 1)
                     for i = 1:length(this.trialTargets)
                         currTarget = this.trialTargets{1, i}; 
+
+                        if (time <= this.trialDuration)
+
+                            currTarget.drawOnScreen(window); 
+                            currTarget = currTarget.updateState(time, 0); 
+                            currTarget = currTarget.move(time);
+                            this.trialTargets{1, i} = currTarget; 
+                        else
+                            break; 
+                        end
                         
-                        currTarget.drawOnScreen(window); 
-                        currTarget = currTarget.updateState(time); 
-                        currTarget = currTarget.move(time);
-                        this.trialTargets{1, i} = currTarget; 
                     end
                 end
 
                 this = this.flipScreen(window); 
 
+                if (time > this.trialDuration)
+                    currTarget = currTarget.updateState(time, 0); 
+                    currTarget.drawOnScreen(window); 
+                    this = this.flipScreen(window); 
+                    break; 
+                end
+
                 % Increment the time
                 time = time + this.ifi;
             end
-
-            
-            % todo write to data file properly
-            % [ch, ~] = GetChar();            
-            % if (~isempty(ch))
-            %     disp('key pressed!');
-            %     disp(ch); 
-            % end
-            % ListenChar(0); 
 
         end
 
@@ -175,9 +193,13 @@ classdef ExperimentTrial
 
         function this = fixate(this, window)
             if (~isempty(this.fixationTarget) && this.fixationDuration > 0)
-                this.fixationTarget.drawOnScreen(window); 
-                this = this.flipScreen(window); 
-                pause(this.fixationDuration); 
+                time = 0; 
+                while (time <= this.fixationDuration)
+                    this.fixationTarget = this.fixationTarget.updateState(time, 1); 
+                    this.fixationTarget.drawOnScreen(window); 
+                    this = this.flipScreen(window);
+                    time = time + this.ifi;
+                end
             end
         end
 

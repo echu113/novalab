@@ -20,8 +20,8 @@ classdef EyeSoccerTrial < ExperimentTrial
 			goal = Utils.strToChar(Utils.getValueFromMap(nodeMap, 'goal')); 
 			newMap('trialTargets') = ['[', ball, ' ', goal, ']'];
 
-			ballX = fixPosition(1) + (randi(fixPositionVariance * 2) - fixPositionVariance); 
-			ballY = fixPosition(2) + (randi(fixPositionVariance * 2) - fixPositionVariance); 
+			ballX = fixPosition(1) + (randi(fixPositionVariance) - (fixPositionVariance/2)); 
+			ballY = fixPosition(2) + (randi(fixPositionVariance) - (fixPositionVariance/2)); 
 			newMap(strcat(ball, '.x')) = num2str(ballX); 
 			newMap(strcat(ball, '.y')) = num2str(ballY); 
 
@@ -37,7 +37,7 @@ classdef EyeSoccerTrial < ExperimentTrial
 
 			if (~isempty(movement))
 
-				endingDistance = Utils.strToInt(Utils.getValueFromMap(nodeMap, 'endingDistance'));
+				endingDistance = Utils.strToDouble(Utils.getValueFromMap(nodeMap, 'endingDistance'));
 				possibleHitPositions = Utils.strToArray(Utils.getValueFromMap(nodeMap, 'possibleHitPositions')); 
 				hitPosition = possibleHitPositions(randi(length(possibleHitPositions))); 
 
@@ -49,9 +49,36 @@ classdef EyeSoccerTrial < ExperimentTrial
 				totalDistance = distanceTraveled + endingDistance;  
 
 				ballGoalAngle = 0; 
+                                
+                ballPropertyChanges = []; 
+                
 				if (isPursuit)
 					newMap(strcat(ball, '.movement')) = movementId;
 					ballGoalAngle = LinearMovement.normalizeAngleDeg(movement.Direction); 
+					
+					turnRedPropertyChange = PropertyChange; 
+					turnRedPropertyChange.id = 'turnRed';
+					turnRedPropertyChange.propertyName = 'Color'; 
+					turnRedPropertyChange.newValue = [1 0 0]; 
+					turnRedPropertyChange.duringFixation = 1; 
+					turnRedPropertyChange.eventTime = 0; 
+					propertyChanges(turnRedPropertyChange.id) = turnRedPropertyChange; 
+
+					turnWhitePropertyChange = PropertyChange; 
+					turnWhitePropertyChange.id = 'turnWhite';
+					turnWhitePropertyChange.propertyName = 'Color'; 
+					turnWhitePropertyChange.newValue = [1 1 1]; 
+					turnWhitePropertyChange.duringFixation = 1; 
+					turnWhitePropertyChange.eventTime = Utils.strToDouble(Utils.getValueFromMap(nodeMap, 'fixationDuration')) - 0.1;  
+					propertyChanges(turnWhitePropertyChange.id) = turnWhitePropertyChange; 
+
+                    ballPropertyChanges = [turnRedPropertyChange.id];
+                    ballPropertyChanges = [ballPropertyChanges, ' ', turnWhitePropertyChange.id]
+
+%                     
+% 					newMap(strcat(ball, '.propertyChanges')) = ['[', , ']']; 
+% 					newMap(strcat(ball, '.propertyChanges')) = ['[', , ']']; 
+
 				else
 					newMap(strcat(goal, '.movement')) = movementId; 
 					ballGoalAngle = LinearMovement.normalizeAngleDeg(movement.Direction + 180); 
@@ -59,12 +86,12 @@ classdef EyeSoccerTrial < ExperimentTrial
 
 				[displacementX, displacementY] = LinearMovement.pointOnCircle(totalDistance, LinearMovement.degtorad(ballGoalAngle));
 				if (ballGoalAngle <= 90 || ballGoalAngle >= 270)
-					newMap(strcat(goal, '.x')) = num2str(ballX + floor(displacementX)); 
-					newMap(strcat(goal, '.y')) = num2str(ballY - floor(displacementY) - hitPosition); 
+					newMap(strcat(goal, '.x')) = num2str(ballX + displacementX); 
+					newMap(strcat(goal, '.y')) = num2str(ballY - displacementY - hitPosition); 
 		        else
 		            goalTarget = targets(goal); 
-					newMap(strcat(goal, '.x')) = num2str(ballX + floor(displacementX) - goalTarget.Width); 
-					newMap(strcat(goal, '.y')) = num2str(ballY - floor(displacementY) - hitPosition); 
+					newMap(strcat(goal, '.x')) = num2str(ballX + displacementX - goalTarget.Width); 
+					newMap(strcat(goal, '.y')) = num2str(ballY - displacementY - hitPosition); 
 				end
 
 			else
@@ -77,9 +104,15 @@ classdef EyeSoccerTrial < ExperimentTrial
 			trialEndPropertyChange.newValue = 0; 
 			trialEndPropertyChange.eventTime = trialDuration; 
 
-			propertyChanges(trialEndPropertyChange.id) = trialEndPropertyChange; 
+ 			propertyChanges(trialEndPropertyChange.id) = trialEndPropertyChange; 
 
-			newMap(strcat(ball, '.propertyChanges')) = ['[', trialEndPropertyChange.id, ']']; 
+            if (~isempty(ballPropertyChanges))
+                ballPropertyChanges = [ballPropertyChanges, ' ', trialEndPropertyChange.id]; 
+            else
+                ballPropertyChanges = trialEndPropertyChange.id; 
+            end
+            
+			newMap(strcat(ball, '.propertyChanges')) = ['[', ballPropertyChanges, ']']; 
 			newMap(strcat(goal, '.propertyChanges')) = ['[', trialEndPropertyChange.id, ']']; 
 			newMap(strcat(backgroundId, '.propertyChanges')) = ['[', trialEndPropertyChange.id, ']']; 
 

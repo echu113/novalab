@@ -16,8 +16,8 @@ classdef Rect < CanClone & Target
         function obj = Rect(xmlNode)
             if (nargin == 1)      
                 obj.Id = Utils.strToChar(xmlNode.getAttribute('id')); 
-                obj.Height = Utils.strToInt(xmlNode.getAttribute('height'));
-                obj.Width = Utils.strToInt(xmlNode.getAttribute('width')); 
+                obj.Height = Utils.strToDouble(xmlNode.getAttribute('height'));
+                obj.Width = Utils.strToDouble(xmlNode.getAttribute('width')); 
                 obj.Color = Utils.strToArray(xmlNode.getAttribute('color')); 
             end
         end
